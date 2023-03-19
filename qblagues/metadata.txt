@@ -17,10 +17,13 @@ tracker=https://github.com/gounux/qblagues/issues
 
 # experimental flag
 deprecated=False
-experimental=True
+experimental=False
 qgisMinimumVersion=3.22
 qgisMaximumVersion=3.99
 
 # versioning
 version=0.1.0
 changelog=
+
+[blaguesApi]
+apiBaseUrl=https://www.blagues-api.fr

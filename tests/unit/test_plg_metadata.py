@@ -71,6 +71,9 @@ class TestPluginMetadata(unittest.TestCase):
             float(__about__.__plugin_md__.get("general").get("qgismaximumversion")),
         )
 
+        # blagues api
+        self.assertIsInstance(__about__.__api_base_url__, str)
+
     def test_version_semver(self):
         """Test if version comply with semantic versioning."""
         self.assertTrue(VersionInfo.isvalid(__about__.__version__))
