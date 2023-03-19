@@ -6,7 +6,7 @@ about=Some "blagues" (french jokes) in QGIS using Blagues API
 category=Web
 hasProcessingProvider=no
 icon=resources/images/emoji_lol.png
-tags=jokes,blagues,API,OMGeo
+tags=web,API,jokes,blagues,OMGeo
 
 # credits and contact
 author=QSchlague

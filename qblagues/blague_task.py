@@ -21,7 +21,6 @@ class BlagueTask(QgsTask):
         self.log = PlgLogger().log
 
     def run(self) -> bool:
-
         # get blaguesAPI config from settings
         settings = PlgOptionsManager.get_plg_settings()
         base_url = settings.api_base_url

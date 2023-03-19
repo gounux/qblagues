@@ -10,12 +10,12 @@ from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from qgis.utils import showPluginHelp
 
 # project
 from qblagues.__about__ import __title__
 from qblagues.blague_task import BlagueTask
 from qblagues.gui.dlg_settings import PlgOptionsFactory
+from qblagues.resources import *  # noqa
 from qblagues.toolbelt import PlgLogger, PlgTranslator
 
 # ############################################################################
@@ -24,7 +24,6 @@ from qblagues.toolbelt import PlgLogger, PlgTranslator
 
 
 class QblaguesPlugin:
-
     action_blagues: QAction
     action_settings: QAction
 
@@ -55,14 +54,16 @@ class QblaguesPlugin:
         # settings page within the QGIS preferences menu
         self.options_factory = PlgOptionsFactory()
         self.iface.registerOptionsWidgetFactory(self.options_factory)
+        self.toolbar = self.iface.addToolBar(self.menu_title)
 
         # Blague action
         self.action_blagues = QAction(
-            QgsApplication.getThemeIcon("console/iconSettingsConsole.svg"),
+            QIcon(":/plugins/qblagues/mdrrr"),
             self.tr("Blague"),
             self.iface.mainWindow(),
         )
         self.action_blagues.triggered.connect(self.blague)
+        self.iface.addWebToolBarIcon(self.action_blagues)
 
         # Settings action
         self.action_settings = QAction(
@@ -75,6 +76,9 @@ class QblaguesPlugin:
                 currentPage="mOptionsPage{}".format(__title__)
             )
         )
+
+        # Add actions to toolbar
+        self.toolbar.addAction(self.action_blagues)
 
         # Add actions to QGIS web menu
         self.iface.addPluginToWebMenu(self.menu_title, self.action_blagues)
@@ -90,6 +94,7 @@ class QblaguesPlugin:
         self.iface.unregisterOptionsWidgetFactory(self.options_factory)
 
         # remove actions
+        del self.toolbar
         del self.action_blagues
         del self.action_settings
 

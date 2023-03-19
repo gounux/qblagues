@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/plugins/qblagues">
+        <file alias="mdrrr">resources/images/emoji_lol.png</file>
+    </qresource>
+</RCC>
