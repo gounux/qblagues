@@ -43,7 +43,7 @@ class PlgSettingsStructure:
     @property
     def excluded_categories(self) -> List[str]:
         """Returns blagues categories that are excluded (not selected)
-        :return:
+        :return: List containing excluded cats as str compatible with BlaguesAPI
         """
         return [
             cat
@@ -55,7 +55,7 @@ class PlgSettingsStructure:
                 ("beauf", self.category_beauf),
                 ("blondes", self.category_blondes),
             ]
-            if active
+            if not active
         ]
 
 
