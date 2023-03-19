@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     container:
-      image: qgis/qgis:release-3_16
+      image: qgis/qgis:release-3_22
       env:
         DISPLAY: ":99"
       options: -v ${{ github.workspace }}:/tests_directory
