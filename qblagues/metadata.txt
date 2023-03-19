@@ -25,5 +25,5 @@ qgisMaximumVersion=3.99
 version=0.1.0
 changelog=
 
-[blaguesApi]
-apiBaseUrl=https://www.blagues-api.fr
+[blaguesapi]
+apibaseurl=https://www.blagues-api.fr

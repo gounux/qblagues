@@ -17,7 +17,7 @@ from typing import List
 from qgis.testing import unittest
 
 # project
-from qblagues.__about__ import __version__
+from qblagues.__about__ import __api_base_url__, __version__
 from qblagues.toolbelt.preferences import PlgSettingsStructure
 
 # ############################################################################
