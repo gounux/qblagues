@@ -7,25 +7,11 @@
 
 [![flake8](https://img.shields.io/badge/linter-flake8-green)](https://flake8.pycqa.org/)
 
+Some "blagues" (french jokes) in QGIS using Blagues API
+    Blague à part, quelle est la différence entre un bon et un mauvais plugin ?
+    Blague à part, Blagues API is a joke API that serves jokes proposed and categorized by the community (see https://www.blagues-api.fr/)
+
 ## Generated options
-
-### Plugin
-
-"plugin_name": QBlagues
-"plugin_name_slug": qblagues
-"plugin_name_class": Qblagues
-
-"plugin_category": Web
-"plugin_description_short": Some "blagues" (french jokes) in QGIS using Blagues API. Blague à part, quelle est la différence entre un bon et un mauvais plugin ? Blague à part, Blagues API is a joke API that serves jokes proposed and categorized by the community, with a discord channel
-"plugin_description_long": Some "blagues" (french jokes) in QGIS using Blagues API. Blague à part, quelle est la différence entre un bon et un mauvais plugin ? Blague à part, Blagues API is a joke API that serves jokes proposed and categorized by the community, with a discord channel
-"plugin_description_short": Some "blagues" (french jokes) in QGIS using Blagues API. Blague à part, quelle est la différence entre un bon et un mauvais plugin ? Blague à part, Blagues API is a joke API that serves jokes proposed and categorized by the community, with a discord channel
-"plugin_icon": emoji_lol.png
-
-"author_name": Guilhem Allaman
-"author_email": contact@guilhemallaman.net
-
-"qgis_version_min": 3.22
-"qgis_version_max": 3.99
 
 ### Tooling
 
@@ -43,16 +29,16 @@ See also: [contribution guidelines](CONTRIBUTING.md).
 
 Plugin is linted, tested, packaged and published with GitHub.
 
-If you mean to deploy it to the [official QGIS plugins repository](https://plugins.qgis.org/), remember to set your OSGeo credentials (`OSGEO_USER_NAME` and `OSGEO_USER_PASSWORD`) as environment variables in your CI/CD tool. 
+If you mean to deploy it to the [official QGIS plugins repository](https://plugins.qgis.org/), remember to set your OSGeo credentials (`OSGEO_USER_NAME` and `OSGEO_USER_PASSWORD`) as environment variables in your CI/CD tool.
 
 
 ### Documentation
 
 The documentation is generated using Sphinx and is automatically generated through the CI and published on Pages.
 
-- homepage: <https://gitlab.com/Company/qblagues/>
-- repository: <https://gitlab.com/Company/qblagues/>
-- tracker: <https://gitlab.com/Company/qblagues//issues>
+- homepage: <https://github.com/gounux/qblagues>
+- repository: <https://github.com/gounux/qblagues>
+- tracker: <https://github.com/gounux/qblagues/issues>
 
 ----
 
