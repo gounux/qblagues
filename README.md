@@ -7,11 +7,9 @@
 
 [![flake8](https://img.shields.io/badge/linter-flake8-green)](https://flake8.pycqa.org/)
 
-Some "blagues" (french jokes) in QGIS using [Blagues API](https://www.blagues-api.fr/)
+Some "blagues" (french jokes) in QGIS using [BlaguesAPI](https://www.blagues-api.fr/), a joke API that serves jokes suggested and categorized by the community.
 
 *Blague à part, quelle est la différence entre un bon et un mauvais plugin ?*
-
-Blague à part, [Blagues API](https://www.blagues-api.fr/) is a joke API that serves jokes proposed and categorized by the community.
 
 ## Generated options
 
