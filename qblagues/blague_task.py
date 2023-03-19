@@ -1,8 +1,12 @@
+import random
+from datetime import datetime, timedelta
+from time import sleep
 from typing import Any, Dict
 
 import requests
 from qgis.core import Qgis, QgsApplication, QgsMessageLog, QgsTask
 from qgis.gui import QgisInterface
+from qgis.PyQt.QtGui import QTransform
 from requests import Response
 
 from qblagues.toolbelt import PlgLogger, PlgOptionsManager, PlgTranslator
@@ -63,7 +67,7 @@ class BlagueTask(QgsTask):
         # check if task was successful
         if not result:
             self.iface.messageBar().pushCritical(self.tr("Error"), str(self.exception))
-            return
+
         # display blague in QGIS
         cat, joke, answer = (
             self.blague["type"],
@@ -79,3 +83,46 @@ class BlagueTask(QgsTask):
             self.iface.messageBar().pushWarning(cat.upper(), joke)
         else:
             self.iface.messageBar().pushSuccess(cat.upper(), f"{joke} {answer}")
+        dizzy_task = DizzyTask("Disiz la Peste", self.iface)
+        QgsApplication.taskManager().addTask(dizzy_task)
+
+
+class DizzyTask(QgsTask):
+    def __init__(
+        self,
+        description: str,
+        iface: QgisInterface,
+        duration: float = 2.4,
+        refresh: float = 0.08,
+    ):
+        super().__init__(description, QgsTask.CanCancel)
+        self.iface = iface
+        self.duration = duration
+        self.refresh = refresh
+
+    def run(self) -> bool:
+        canvas = self.iface.mapCanvas()
+        stop_time = datetime.now() + timedelta(seconds=self.duration)
+
+        r = 0
+        while datetime.now() < stop_time:
+
+            d = 12  # max offset
+            r = 8  # max angle
+
+            rect = canvas.sceneRect()
+            if rect.x() < -d or rect.x() > d or rect.y() < -d or rect.y() > d:
+                # do not affect panning
+                pass
+
+            else:
+                rect.moveTo(random.randint(-d, d), random.randint(-d, d))
+                canvas.setSceneRect(rect)
+                matrix = QTransform()
+                matrix.rotate(random.randint(-r, r))
+                canvas.setTransform(matrix)
+                sleep(self.refresh)
+
+        canvas.setSceneRect(canvas.sceneRect())
+        canvas.setTransform(QTransform())
+        return True
