@@ -1,0 +1,26 @@
+[general]
+name=QBlagues
+about=Some "blagues" (french jokes) in QGIS using Blagues API
+    Blague à part, quelle est la différence entre un bon et un mauvais plugin ?
+    Blague à part, Blagues API is a joke API that serves jokes proposed and categorized by the community (see https://www.blagues-api.fr/)
+category=Web
+hasProcessingProvider=no
+icon=resources/images/emoji_lol.png
+tags=jokes,blagues,API,OMGeo
+
+# credits and contact
+author=Guilhem Allaman
+email=contact@guilhemallaman.net
+homepage=https://github.com/gounux/qblagues
+repository=https://github.com/gounux/qblagues
+tracker=https://github.com/gounux/qblagues/issues
+
+# experimental flag
+deprecated=False
+experimental=True
+qgisMinimumVersion=3.22
+qgisMaximumVersion=3.99
+
+# versioning
+version=0.1.0
+changelog=
