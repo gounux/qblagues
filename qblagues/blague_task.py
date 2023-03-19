@@ -1,7 +1,7 @@
 import random
 from datetime import datetime, timedelta
 from time import sleep
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import requests
 from qgis.core import Qgis, QgsApplication, QgsMessageLog, QgsTask
@@ -16,13 +16,15 @@ class BlagueTask(QgsTask):
     """Background task that fetches a blague on API and add it to QGIS"""
 
     blague: Dict[str, Any]
-    exception: Exception
+    exception: Optional[Exception]
 
     def __init__(self, description: str, iface: QgisInterface):
         super().__init__(description)
         self.iface = iface
         self.tr = PlgTranslator().tr
         self.log = PlgLogger().log
+        self.blague = None
+        self.exception = None
 
     def run(self) -> bool:
         # get blaguesAPI config from settings
@@ -48,6 +50,9 @@ class BlagueTask(QgsTask):
                     "Authorization": f"Bearer {token}",
                 },
             )
+            if r.status_code != 200:
+                self.exception = Exception(f"{r.status_code} {r.reason}")
+                return False
         except Exception as ex:
             self.log(message=str(ex), log_level=Qgis.Critical)
             self.exception = ex
@@ -65,8 +70,15 @@ class BlagueTask(QgsTask):
 
     def finished(self, result: bool) -> None:
         # check if task was successful
+        if self.exception:
+            self.iface.messageBar().pushCritical(
+                self.tr("BlaguesAPI error"), str(self.exception)
+            )
+            return
+
         if not result:
-            self.iface.messageBar().pushCritical(self.tr("Error"), str(self.exception))
+            self.log(message="No result in Task", log_level=Qgis.Critical)
+            return
 
         # display blague in QGIS
         cat, joke, answer = (
@@ -92,29 +104,29 @@ class DizzyTask(QgsTask):
         self,
         description: str,
         iface: QgisInterface,
-        duration: float = 2.4,
-        refresh: float = 0.08,
+        duration: float = 3,
+        refresh: float = 0.07,
+        max_offset: int = 12,
+        max_angle: int = 6,
     ):
         super().__init__(description, QgsTask.CanCancel)
         self.iface = iface
         self.duration = duration
         self.refresh = refresh
+        self.max_offset = max_offset
+        self.max_angle = max_angle
 
     def run(self) -> bool:
-        canvas = self.iface.mapCanvas()
+
         stop_time = datetime.now() + timedelta(seconds=self.duration)
-
-        r = 0
+        d = self.max_offset
+        r = self.max_angle
+        canvas = self.iface.mapCanvas()
         while datetime.now() < stop_time:
-
-            d = 12  # max offset
-            r = 8  # max angle
-
             rect = canvas.sceneRect()
             if rect.x() < -d or rect.x() > d or rect.y() < -d or rect.y() > d:
                 # do not affect panning
                 pass
-
             else:
                 rect.moveTo(random.randint(-d, d), random.randint(-d, d))
                 canvas.setSceneRect(rect)
@@ -122,7 +134,9 @@ class DizzyTask(QgsTask):
                 matrix.rotate(random.randint(-r, r))
                 canvas.setTransform(matrix)
                 sleep(self.refresh)
+        return True
 
+    def finished(self, result: bool) -> None:
+        canvas = self.iface.mapCanvas()
         canvas.setSceneRect(canvas.sceneRect())
         canvas.setTransform(QTransform())
-        return True
