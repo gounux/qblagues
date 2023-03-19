@@ -83,6 +83,8 @@ __uri_repository__: str = __plugin_md__.get("general").get("repository")
 __uri_tracker__: str = __plugin_md__.get("general").get("tracker")
 __uri__: str = __uri_repository__
 
+__api_base_url__: str = __plugin_md__.get("blaguesapi").get("apibaseurl")
+
 __version__: str = __plugin_md__.get("general").get("version")
 __version_info__: tuple = tuple(
     [

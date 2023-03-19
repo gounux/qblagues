@@ -6,13 +6,14 @@
 
 # standard
 from dataclasses import asdict, dataclass, fields
+from typing import List
 
 # PyQGIS
 from qgis.core import QgsSettings
 
 # package
 import qblagues.toolbelt.log_handler as log_hdlr
-from qblagues.__about__ import __title__, __version__
+from qblagues.__about__ import __api_base_url__, __title__, __version__
 
 # ############################################################################
 # ########## Classes ###############
@@ -23,9 +24,39 @@ from qblagues.__about__ import __title__, __version__
 class PlgSettingsStructure:
     """Plugin settings structure and defaults values."""
 
+    # blagues api
+    api_base_url: str = __api_base_url__
+    api_access_token: str = ""
+
+    # categories
+    category_global: bool = True
+    category_dev: bool = True
+    category_dark: bool = False
+    category_limit: bool = False
+    category_beauf: bool = False
+    category_blondes: bool = False
+
     # global
     debug_mode: bool = False
     version: str = __version__
+
+    @property
+    def excluded_categories(self) -> List[str]:
+        """Returns blagues categories that are excluded (not selected)
+        :return: List containing excluded cats as str compatible with BlaguesAPI
+        """
+        return [
+            cat
+            for cat, active in [
+                ("global", self.category_global),
+                ("dev", self.category_dev),
+                ("dark", self.category_dark),
+                ("limit", self.category_limit),
+                ("beauf", self.category_beauf),
+                ("blondes", self.category_blondes),
+            ]
+            if not active
+        ]
 
 
 class PlgOptionsManager:

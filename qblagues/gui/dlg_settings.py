@@ -18,6 +18,7 @@ from qgis.PyQt.QtGui import QDesktopServices, QIcon
 # project
 from qblagues.__about__ import (
     DIR_PLUGIN_ROOT,
+    __api_base_url__,
     __icon_path__,
     __title__,
     __uri_homepage__,
@@ -72,6 +73,13 @@ class ConfigOptionsPage(FORM_CLASS, QgsOptionsPageWidget):
         self.btn_reset.setIcon(QIcon(QgsApplication.iconPath("mActionUndo.svg")))
         self.btn_reset.pressed.connect(self.reset_settings)
 
+        self.btn_get_token.setIcon(
+            QIcon(QgsApplication.iconPath("console/mActionHelpContents.svg"))
+        )
+        self.btn_help.pressed.connect(
+            partial(QDesktopServices.openUrl, QUrl(__api_base_url__))
+        )
+
         # load previously saved settings
         self.load_settings()
 
@@ -81,7 +89,17 @@ class ConfigOptionsPage(FORM_CLASS, QgsOptionsPageWidget):
         dialog is accepted."""
         settings = self.plg_settings.get_plg_settings()
 
-        # misc
+        # blagues api
+        settings.api_base_url = self.le_base_url.text()
+        settings.api_access_token = self.le_access_token.text()
+        # blagues categories
+        settings.category_global = self.opt_global.isChecked()
+        settings.category_dev = self.opt_dev.isChecked()
+        settings.category_dark = self.opt_dark.isChecked()
+        settings.category_limit = self.opt_limit.isChecked()
+        settings.category_beauf = self.opt_beauf.isChecked()
+        settings.category_blondes = self.opt_blondes.isChecked()
+        # global
         settings.debug_mode = self.opt_debug.isChecked()
         settings.version = __version__
 
@@ -98,6 +116,16 @@ class ConfigOptionsPage(FORM_CLASS, QgsOptionsPageWidget):
         """Load options from QgsSettings into UI form."""
         settings = self.plg_settings.get_plg_settings()
 
+        # blagues api
+        self.le_base_url.setText(settings.api_base_url)
+        self.le_access_token.setText(settings.api_access_token)
+        # blagues categories
+        self.opt_global.setChecked(settings.category_global)
+        self.opt_dev.setChecked(settings.category_dev)
+        self.opt_dark.setChecked(settings.category_dark)
+        self.opt_limit.setChecked(settings.category_limit)
+        self.opt_beauf.setChecked(settings.category_beauf)
+        self.opt_blondes.setChecked(settings.category_blondes)
         # global
         self.opt_debug.setChecked(settings.debug_mode)
         self.lbl_version_saved_value.setText(settings.version)
