@@ -9,7 +9,7 @@ from qgis.core import QgsApplication
 from qgis.gui import QgisInterface
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction
+from qgis.PyQt.QtWidgets import QAction, QToolBar
 
 # project
 from qblagues.__about__ import __title__
@@ -48,13 +48,14 @@ class QblaguesPlugin:
             QCoreApplication.installTranslator(translator)
         self.tr = plg_translation_mngr.tr
 
+        self.toolbar = self.iface.addToolBar(self.menu_title)
+
     def initGui(self):
         """Set up plugin UI elements."""
 
         # settings page within the QGIS preferences menu
         self.options_factory = PlgOptionsFactory()
         self.iface.registerOptionsWidgetFactory(self.options_factory)
-        self.toolbar = self.iface.addToolBar(self.menu_title)
 
         # Blague action
         self.action_blagues = QAction(
@@ -63,7 +64,6 @@ class QblaguesPlugin:
             self.iface.mainWindow(),
         )
         self.action_blagues.triggered.connect(self.blague)
-        self.iface.addWebToolBarIcon(self.action_blagues)
 
         # Settings action
         self.action_settings = QAction(
@@ -94,9 +94,9 @@ class QblaguesPlugin:
         self.iface.unregisterOptionsWidgetFactory(self.options_factory)
 
         # remove actions
-        del self.toolbar
         del self.action_blagues
         del self.action_settings
+        del self.toolbar
 
     def blague(self):
         blague_task = BlagueTask("Blague", self.iface)
