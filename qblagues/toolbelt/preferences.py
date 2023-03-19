@@ -9,7 +9,7 @@ from dataclasses import asdict, dataclass, fields
 from typing import List
 
 # PyQGIS
-from qgis.core import QgsSettings
+from qgis.core import Qgis, QgsSettings
 
 # package
 import qblagues.toolbelt.log_handler as log_hdlr
@@ -101,7 +101,7 @@ class PlgOptionsManager:
                 message="Bad settings key. Must be one of: {}".format(
                     ",".join(PlgSettingsStructure._fields)
                 ),
-                log_level=1,
+                log_level=Qgis.Warning,
             )
             return None
 
@@ -138,7 +138,7 @@ class PlgOptionsManager:
                 message="Bad settings key. Must be one of: {}".format(
                     ",".join(PlgSettingsStructure._fields)
                 ),
-                log_level=2,
+                log_level=Qgis.Critical,
             )
             return False
 

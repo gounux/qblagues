@@ -14,6 +14,7 @@ from qgis.utils import showPluginHelp
 
 # project
 from qblagues.__about__ import __title__
+from qblagues.blague_task import BlagueTask
 from qblagues.gui.dlg_settings import PlgOptionsFactory
 from qblagues.toolbelt import PlgLogger, PlgTranslator
 
@@ -23,6 +24,14 @@ from qblagues.toolbelt import PlgLogger, PlgTranslator
 
 
 class QblaguesPlugin:
+
+    action_blagues: QAction
+    action_settings: QAction
+
+    @property
+    def menu_title(self) -> str:
+        return "&QBlague"
+
     def __init__(self, iface: QgisInterface):
         """Constructor.
 
@@ -53,11 +62,7 @@ class QblaguesPlugin:
             self.tr("Blague"),
             self.iface.mainWindow(),
         )
-        self.action_blagues.triggered.connect(
-            lambda: self.iface.showOptionsDialog(
-                currentPage="mOptionsPage{}".format(__title__)
-            )
-        )
+        self.action_blagues.triggered.connect(self.blague)
 
         # Settings action
         self.action_settings = QAction(
@@ -72,42 +77,22 @@ class QblaguesPlugin:
         )
 
         # Add actions to QGIS web menu
-        self.iface.addPluginToWebMenu(__title__, self.action_blagues)
-        self.iface.addPluginToWebMenu(__title__, self.action_settings)
+        self.iface.addPluginToWebMenu(self.menu_title, self.action_blagues)
+        self.iface.addPluginToWebMenu(self.menu_title, self.action_settings)
 
     def unload(self):
         """Cleans up when plugin is disabled/uninstalled."""
         # -- Clean up menu
-        self.iface.removePluginMenu(__title__, self.action_blagues)
-        self.iface.removePluginMenu(__title__, self.action_settings)
+        self.iface.removePluginWebMenu(self.menu_title, self.action_blagues)
+        self.iface.removePluginWebMenu(self.menu_title, self.action_settings)
 
         # -- Clean up preferences panel in QGIS settings
         self.iface.unregisterOptionsWidgetFactory(self.options_factory)
 
         # remove actions
+        del self.action_blagues
         del self.action_settings
-        del self.action_help
 
-    def run(self):
-        """Main process.
-
-        :raises Exception: if there is no item in the feed
-        """
-        try:
-            self.log(
-                message=self.tr(
-                    text="Everything ran OK.",
-                    context="QblaguesPlugin",
-                ),
-                log_level=3,
-                push=False,
-            )
-        except Exception as err:
-            self.log(
-                message=self.tr(
-                    text="Houston, we've got a problem: {}".format(err),
-                    context="QblaguesPlugin",
-                ),
-                log_level=2,
-                push=True,
-            )
+    def blague(self):
+        blague_task = BlagueTask("Blague", self.iface)
+        QgsApplication.taskManager().addTask(blague_task)
