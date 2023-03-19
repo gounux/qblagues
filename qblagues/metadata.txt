@@ -1,14 +1,17 @@
 [general]
 name=QBlagues
-about=Some "blagues" (french jokes) in QGIS using Blagues API, a joke API that serves jokes suggested and categorized by the community (see https://www.blagues-api.fr/).
+description=Some "blagues" (french jokes) in QGIS using BlaguesAPI
+about=BlaguesAPI is a joke API that serves jokes suggested and categorized by the community.
+    see https://www.blagues-api.fr/
     Blague à part, quelle est la différence entre un bon et un mauvais plugin ?
 category=Web
 hasProcessingProvider=no
 icon=resources/images/emoji_lol.png
 tags=web,API,jokes,blagues,OMGeo
+server=False
 
 # credits and contact
-author=QSchlague
+author=Guilhem A.
 email=contact@guilhemallaman.net
 homepage=https://github.com/gounux/qblagues
 repository=https://github.com/gounux/qblagues
