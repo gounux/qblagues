@@ -6,9 +6,10 @@ from functools import lru_cache
 from inspect import currentframe
 from pathlib import Path
 from string import Template
+from typing import Optional
 
 # PyQGIS
-from qgis.core import QgsSettings
+from qgis.core import Qgis, QgsSettings
 from qgis.PyQt.QtCore import QLocale, QTranslator
 from qgis.PyQt.QtWidgets import QApplication
 
@@ -39,7 +40,7 @@ class PlgTranslator:
     :type tpl_filename: str, optional
     """
 
-    AVAILABLE_TRANSLATIONS: tuple = None
+    AVAILABLE_TRANSLATIONS: Optional[tuple] = None
 
     def __init__(
         self,
@@ -70,7 +71,7 @@ class PlgTranslator:
                 "Please consider to contribute with your own translation :). "
                 "Contact the plugin maintener(s): {}".format(locale, __email__)
             )
-            self.log(message=str(info_msg), log_level=1, push=False)
+            self.log(message=str(info_msg), log_level=Qgis.Warning, push=False)
             logger.info(info_msg)
 
     def get_translator(self) -> QTranslator:
@@ -85,7 +86,7 @@ class PlgTranslator:
                 context="PlgTranslator",
             )
             logger.warning(warn_msg)
-            self.log(message=warn_msg, log_level=1)
+            self.log(message=warn_msg, log_level=Qgis.Warning)
             return None
 
         if not self.qm_filepath:
